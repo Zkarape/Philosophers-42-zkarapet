@@ -1,9 +1,8 @@
 #include "philos.h"
 
-int ft_atoi(char *s)
+int ft_atoi(char *s, t_forpars *pars)
 {
 	int i = 0;
-	int sign = 1;
 	int res = 0;
  	while ((s[i] >= 9 && s[i] <= 13) || s[i] == ' ')
 		i++;
@@ -14,7 +13,11 @@ int ft_atoi(char *s)
 		res = res * 10 + (s[i] - 48);
 		i++;
 	}
-	return (res * sign);
+	if ((s[i] < 48 || s[i] > 57) && s[i])
+		pars->atoi_flag = 2;
+	if (!s[i])
+		return (res);
+	return (0);
 }
 
 int ft_strlen(char *s)
