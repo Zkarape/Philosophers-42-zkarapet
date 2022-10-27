@@ -1,6 +1,6 @@
 #include "philos.h"
 
-int ft_atoi(char *s, t_forpars *pars)
+int ft_atoi(char *s, t_data *pars)
 {
 	int i = 0;
 	int res = 0;
