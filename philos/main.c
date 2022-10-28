@@ -1,18 +1,21 @@
 #include "philos.h"
 
-int main(int ac, char **av)
+int main(int argc, char **argv)
 {
-	t_data	data;
+	int		i;
+	t_data	*data;
 	t_philo	*philo;
 	//pthread_mutex_t	forks[];
 
+	i = -1;
+	data = malloc(sizeof(t_data));
 	philo = malloc(sizeof(t_philo));
-	data.av = av;
-	data.ac = ac;
-	data.atoi_flag = 1;
-	parsing(&data);
-	if ((pthread_mutex_init(((t_philo *)philo)->fork1, NULL) != 0)
-			|| (pthread_mutex_init(((t_philo *)philo)->fork2, NULL) != 0))
-		error("Error after creating mutex\n");
-	creation(&data);
+	data->av = argv;
+	data->ac = argc;
+	data->atoi_flag = 1;
+	parsing(data);
+	while (++i < data->num_of_philos)
+		if (pthread_mutex_init(&data->forks[i], NULL) !=0)
+			error("Mutex initialization error\n");
+	creation(data);
 }
