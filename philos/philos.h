@@ -36,5 +36,6 @@ int 	ft_strlen(char *s);
 void	error(char *s);
 int		parsing(t_data *pars);
 void	creation(void *philo);
+int		is_dead(void *data);
 
 #endif

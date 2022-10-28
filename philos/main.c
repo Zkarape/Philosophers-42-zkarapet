@@ -17,5 +17,11 @@ int main(int argc, char **argv)
 	while (++i < data->num_of_philos)
 		if (pthread_mutex_init(&data->forks[i], NULL) !=0)
 			error("Mutex initialization error\n");
+	i = -1;
 	creation(data);
+	while (++i < data->num_of_philos)
+	{
+		if (is_dead(data))
+			return (0);
+	}
 }
