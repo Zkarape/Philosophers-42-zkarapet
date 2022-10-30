@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:57:27 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/10/30 19:34:08 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/10/30 19:45:21 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_philo
 	pthread_mutex_t	*fork1;
 	pthread_mutex_t	*fork2;
 	int				i;
-	int				*stop_please;
+	int				stop_please;
 }	t_philo;
 
 int		ft_atoi(char *s, t_data *pars);

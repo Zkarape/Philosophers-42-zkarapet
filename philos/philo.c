@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 21:39:45 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/10/30 19:34:03 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/10/30 19:46:41 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*philo_actions(void *philo)
 	d = philo;
 	i = -1;
 	d->flag = 1;
-	while (*(p->stop_please) != 1)
+	while (p->stop_please != 1)
 		;
 	pthread_mutex_lock(p->fork1);
 	pthread_mutex_lock(p->fork2);
@@ -61,12 +61,9 @@ void	creation(void	*data)
 	t_data	*d;
 	t_philo	*philos;
 	int		i;
-	int		res;
-	int		*stop = malloc(sizeof(int) * 1);
 
 	d = data;
 	p = data;
-	*stop = 0;
 	philos = malloc(sizeof(t_philo) * d->num_of_philos);
 	p->i = -1;
 	while (++p->i < d->num_of_philos)
@@ -74,15 +71,16 @@ void	creation(void	*data)
 		philos[p->i].fork1 = &d->forks[p->i];
 		philos[p->i].fork2 = &d->forks[p->i + 1];
 		philos[p->i].i = p->i;
-		philos[p->i].stop_please = stop;
-		res = pthread_create(&philos[p->i].tid, NULL, philo_actions, &philos[p->i]);
-		if (res != 0)
+		philos[p->i].stop_please = 0;
+		if (pthread_create(&philos[p->i].tid, NULL, philo_actions, &philos[p->i]))
 		{
 			error("Error after creating thread\n");
 			return ;
 		}
 	}
-	*stop = 1;//stop_please is changed for all
+	i = -1;
+	while (++i < d->num_of_philos)
+		philos[i].stop_please = 1;
 	i = -1;
 	while (++i < d->num_of_philos)
 		if (pthread_detach(philos[i].tid) != 0)
