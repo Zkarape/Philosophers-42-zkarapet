@@ -1,10 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/29 17:00:49 by zkarapet          #+#    #+#             */
+/*   Updated: 2022/10/29 17:02:16 by zkarapet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philos.h"
 
-int ft_atoi(char *s, t_data *pars)
+int	ft_atoi(char *s, t_data *pars)
 {
-	int i = 0;
-	int res = 0;
- 	while ((s[i] >= 9 && s[i] <= 13) || s[i] == ' ')
+	int	i;
+	int	res;
+
+	i = 0;
+	res = 0;
+	while ((s[i] >= 9 && s[i] <= 13) || s[i] == ' ')
 		i++;
 	if (s[i] == '+')
 		i++;
@@ -20,7 +35,7 @@ int ft_atoi(char *s, t_data *pars)
 	return (0);
 }
 
-int ft_strlen(char *s)
+int	ft_strlen(char *s)
 {
 	int	i;
 
