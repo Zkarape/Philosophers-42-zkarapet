@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:57:27 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/10/30 18:04:24 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/10/30 19:34:08 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct s_data
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
+	int				flag;
+	int				present_time;
 	struct timeval	current_time;
 }	t_data;
 
@@ -49,6 +51,6 @@ void	error(char *s);
 int		parsing(t_data *pars, char **av, int ac);
 void	creation(void *philo);
 int		is_dead(void *data);
-int		getting_present_time(int flag);
+int		getting_present_time(t_data *data);
 
 #endif
