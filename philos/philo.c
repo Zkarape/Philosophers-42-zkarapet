@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 21:39:45 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/10/30 16:34:50 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/10/30 18:11:18 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,14 @@ void	*philo_actions(void *philo)
 {
 	t_data	*d;
 	t_philo	*p;
+	int		i;
+	int		s = 1;
 
 	p = philo;
 	d = philo;
+	i = -1;
+	while (*(p->stop_please) != 1)
+		;
 	pthread_mutex_lock(p->fork1);
 	pthread_mutex_lock(p->fork2);
 	getting_present_time(1);
@@ -38,12 +43,12 @@ void	*philo_actions(void *philo)
 	getting_present_time(1);
 	printf(" %d is eating\n", p->i);
 	gettimeofday(&p->last_eating_time, 0);
-	usleep(d->time_to_eat);
+	while (++i < d->num_of_philos);
 	pthread_mutex_unlock(p->fork1);
 	pthread_mutex_unlock(p->fork2);
 	getting_present_time(1);
 	printf(" %d is sleeping\n", p->i);
-	usleep(d->time_to_sleep);
+	while (++i < d->num_of_philos);
 	getting_present_time(1);
 	printf(" %d is thinking\n", p->i);
 	return (NULL);
@@ -69,23 +74,27 @@ void	creation(void	*data)
 	t_philo	*philos;
 	int		i;
 	int		res;
+	int		stop = 0;
 
 	d = data;
 	p = data;
 	philos = malloc(sizeof(t_philo) * d->num_of_philos);
 	p->i = -1;
 	i = -1;
-	while (++i < d->num_of_philos)
-	{
-		philos[i].fork1 = &d->forks[i];
-		philos[i].fork2 = &d->forks[i + 1];
-	}
 	while (++p->i < d->num_of_philos)
 	{
+		philos[p->i].fork1 = &d->forks[p->i];
+		philos[p->i].fork2 = &d->forks[p->i + 1];
+		philos[p->i].i = p->i;
+		philos[p->i].stop_please = &stop;
 		res = pthread_create(&philos[p->i].tid, NULL, philo_actions, &philos[p->i]);
 		if (res != 0)
+		{
 			error("Error after creating thread\n");
+			return ;
+		}
 	}
+	stop = 1;
 	i = -1;
 	while (++i < d->num_of_philos)
 		if (pthread_detach(philos[i].tid) != 0)
