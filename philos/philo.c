@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 21:39:45 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/10/30 15:58:43 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/10/30 16:34:50 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	creation(void	*data)
 {
 	t_philo	*p;
 	t_data	*d;
-	printf("num == %d\n", d->num_of_philos);
 	t_philo	*philos;
 	int		i;
 	int		res;
@@ -89,6 +88,6 @@ void	creation(void	*data)
 	}
 	i = -1;
 	while (++i < d->num_of_philos)
-		if (pthread_detach(d->philo_tids[i]) != 0)
+		if (pthread_detach(philos[i].tid) != 0)
 			error("Detach failed\n");
 }
