@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:57:27 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/10/30 19:45:21 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/04 20:25:33 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 
 typedef struct s_data
 {
+	struct timeval	last_eating_time;
+	pthread_t		tid;
+	pthread_mutex_t	*fork1;
+	pthread_mutex_t	*fork2;
+	int				i;
+	int				*start_from_me;
 	int				ac;
 	char			**av;
 	int				atoi_flag;
@@ -30,27 +36,19 @@ typedef struct s_data
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
+	int				eating_count;
 	int				flag;
 	int				present_time;
+	int				start_from;
 	struct timeval	current_time;
 }	t_data;
-
-typedef struct s_philo
-{
-	struct timeval	last_eating_time;
-	pthread_t		tid;
-	pthread_mutex_t	*fork1;
-	pthread_mutex_t	*fork2;
-	int				i;
-	int				stop_please;
-}	t_philo;
 
 int		ft_atoi(char *s, t_data *pars);
 int		ft_strlen(char *s);
 void	error(char *s);
 int		parsing(t_data *pars, char **av, int ac);
-void	creation(void *philo);
-int		is_dead(void *data);
+void	creation(t_data *data);
+int		is_dead(t_data *data);
 int		getting_present_time(t_data *data);
 
 #endif

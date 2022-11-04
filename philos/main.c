@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:43:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/10/30 19:47:05 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/04 20:30:56 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,31 @@ int	main(int argc, char **argv)
 {
 	int		i;
 	t_data	*data;
-	t_philo	*philo;
 
 	i = -1;
 	data = malloc(sizeof(t_data));
-	philo = malloc(sizeof(t_philo));
-	parsing(data, argv, argc);
 	data->flag = 0;
 	data->atoi_flag = 1;
+	parsing(data, argv, argc);
 	data->present_time = getting_present_time(data);
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
 	data->philo_tids = malloc(sizeof(pthread_t) * data->num_of_philos);
-	if (argc == 5)
+	while (++i < data->num_of_philos)
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+			error("Mutex initialization error\n");
+//	creation(data);
+	i = -1;
+	while (1)
 	{
-		while (++i < data->num_of_philos)
-			if (pthread_mutex_init(&data->forks[i], NULL) != 0)
-				error("Mutex initialization error\n");
-		creation(data);
+	while (++i < data->num_of_philos)
+	{
+		//printf("mtaa\n");
+		getting_present_time(data);
+		if (!is_dead(data))
+		{
+			printf(" %d is dead\n", i);
+			return (0);
+		}
+	}
 	}
 }
