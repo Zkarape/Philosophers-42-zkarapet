@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:57:27 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/04 20:25:33 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/05 20:04:45 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,22 @@ typedef struct s_data
 	pthread_mutex_t	*fork2;
 	int				i;
 	int				*start_from_me;
-	int				ac;
-	char			**av;
 	int				atoi_flag;
 	int				num_of_philos;
-	pthread_mutex_t	*forks;
-	pthread_t		*philo_tids;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				eating_count;
-	int				flag;
-	int				present_time;
-	int				start_from;
+	int				start_time;
 	struct timeval	current_time;
 }	t_data;
 
-int		ft_atoi(char *s, t_data *pars);
+int		ft_atoi(char *s);
 int		ft_strlen(char *s);
 void	error(char *s);
-int		parsing(t_data *pars, char **av, int ac);
-void	creation(t_data *data);
+int		parsing(int ac, char **av);
+void	creation(t_data *data, pthread_mutex_t *forks);
 int		is_dead(t_data *data);
-int		getting_present_time(t_data *data);
+int		getting_present_time(t_data *data, int flag);
 
 #endif
