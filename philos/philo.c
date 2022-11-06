@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 21:39:45 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/05 20:52:41 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/06 19:14:09 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,12 @@ void	*philo_actions(void *philo)
 	t_data	*d;
 	int		i;
 
-	sleep(2);
 	d = philo;
 	i = -1;
-	while (*d->start_from_me != 1)
+	while (*(d->start_from_me) != 1)
 		;
 	if (d->i % 2)
-		usleep (400);
+		usleep (500);
 	while (1)
 	{
 		pthread_mutex_lock(d->fork1);
@@ -50,9 +49,7 @@ int	is_dead(t_data *data)
 	int	last_eating_time;
 	int	present_time;
 
-	getting_present_time(data, 0);
-	present_time = (data->current_time.tv_sec * 1000
-		+ data->current_time.tv_usec / 1000) - data->start_time;
+	present_time = getting_present_time(data, 0) - data->start_time;
 	last_eating_time = data->last_eating_time.tv_sec * 1000
 		+ data->last_eating_time.tv_usec / 1000;
  	if (present_time - last_eating_time > data->time_to_die)

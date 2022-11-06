@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:57:27 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/05 20:04:45 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/06 17:27:13 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_data
 	pthread_mutex_t	*fork2;
 	int				i;
 	int				*start_from_me;
-	int				atoi_flag;
 	int				num_of_philos;
 	int				time_to_die;
 	int				time_to_eat;
