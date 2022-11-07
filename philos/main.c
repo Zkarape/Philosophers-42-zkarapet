@@ -6,48 +6,47 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:43:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/06 17:47:19 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/07 22:19:55 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philos.h"
 
-int	getting_present_time(t_data *data, int flag)
+long	getting_present_time(t_data *data, int flag)
 {
-	int		present_time;
+	long	present_time;
 
-	gettimeofday(&(data->current_time), NULL);
-	if (flag == 1)
-		printf("%ld:%d", data->current_time.tv_sec, data->current_time.tv_usec / 1000);
+	gettimeofday(&data->current_time, NULL);
 	present_time = data->current_time.tv_sec * 1000 + data->current_time.tv_usec / 1000;
+	if (flag == 1)
+		printf("%ld", present_time - data->start_time);
 	return (present_time);
 }
 
 void	filling_data(t_data *data, int ac, char **av)
 {
-	if (parsing(ac, av))
-	{
-		data->num_of_philos = ft_atoi(av[1]);
-		data->time_to_die = ft_atoi(av[2]);
-		data->time_to_eat = ft_atoi(av[3]);
-		data->time_to_sleep = ft_atoi(av[4]);
-		data->start_time = getting_present_time(data, 0);
-	}
-	else
-		error("Wrong arg\n");
+	data->num_of_philos = ft_atoi(av[1]);
+	data->time_to_die = ft_atoi(av[2]);
+	data->time_to_eat = ft_atoi(av[3]);
+	data->time_to_sleep = ft_atoi(av[4]);
 }
 
 int	main(int argc, char **argv)
 {
 	int				i;
-	int				n;
+	int				n = 0;
 	t_data			*data;
+	struct timeval start;
 	pthread_mutex_t	*forks;
 
 	i = -1;
-	if (parsing(argc, argv))
-		n = ft_atoi(argv[1]);
+	gettimeofday(&start, NULL);
+	if (!parsing(argc, argv))
+		return (0);
+	n = ft_atoi(argv[1]);
 	data = malloc(sizeof(t_data) * n);
+	data->eating_count = 0;
+	data->start_time = start.tv_sec * 1000 + start.tv_usec / 1000;
 	while (++i < n)
 		filling_data(&data[i], argc, argv);
 	forks = malloc(sizeof(pthread_mutex_t) * n);
@@ -55,13 +54,18 @@ int	main(int argc, char **argv)
 		if (pthread_mutex_init(&forks[i], NULL) != 0)
 			error("Mutex initialization error\n");
 	creation(data, forks);
-	i = -1;
-	while (1)
-		while (++i < n)
-			if (!is_dead(&data[i]))
-			{
-				getting_present_time(&data[i], 1);
-				printf(" %d is dead\n", i);
-				return (0);
-			}
+	sleep(10);
+	pthread_mutex_init(&data->is_dead_mutex, NULL);
+	pthread_mutex_lock(&data->is_dead_mutex);
+//	while (1)
+//	{
+//		i = -1;
+//		while (++i < n)
+//			if (!is_dead(&data[i]))
+//			{
+//				getting_present_time(&data[i], 1);
+//				printf(" %d is dead\n", i);
+//				return (0);
+//			}
+//	}
 }

@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:56:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/05 20:23:03 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/07 20:29:17 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	nothing_but_int(char *str)
 	int	i;
 
 	i = -1;
-	if (!str || !*str)
+	if (!str || !*str || !ft_atoi(str))
 		return (0);
 	while (str[++i] && (str[i] >= '0' && str[i] <= '9'))
 		;
