@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:57:27 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/07 20:44:32 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/08 20:20:07 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 typedef struct s_data
 {
-	struct timeval	last_eating_time;
+	long			last_eating_time;
 	pthread_t		tid;
 	pthread_mutex_t	*fork1;
 	pthread_mutex_t	*fork2;
@@ -33,7 +33,7 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				eating_count;
-	int				start_time;
+	long			start_time;
 	struct timeval	current_time;
 }	t_data;
 
