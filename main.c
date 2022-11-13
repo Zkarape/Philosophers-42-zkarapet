@@ -6,13 +6,13 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:43:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/13 16:38:46 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/13 21:26:53 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philos.h"
 
-long	get_time_now(long start_time)
+long	get_time(long start_time)
 {
 	struct timeval	current_time;
 
@@ -79,12 +79,16 @@ int	main(int argc, char **argv)
 	while (1)
 	{
 		i = -1;
-		while (++i < n)
+		while (++i < data[0].num_of_philos)
 		{
-			if (!is_dead(&data[i], data[i].time_to_die,
-					get_time_now(data[i].start_time)) || data[0].eaten == 8)
+			if (is_dead(&data[i], data[0].time_to_die,
+					get_time(data[0].start_time), 0))
+			{
+				pthread_mutex_lock(&data[0].is_dead_mutex);
 				return (0);
-			pthread_mutex_lock(&data[i].is_dead_mutex);
+			}
 		}
+		if (argc == 6 && !eat_this_much(data))
+			return (0);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:56:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/07 20:29:17 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/13 16:50:02 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	parsing(int ac, char **av)
 		}
 	}
 	if (!nothing_but_int(av[1]) || !nothing_but_int(av[2])
-			|| !nothing_but_int(av[3]) || !nothing_but_int(av[4]))
+		|| !nothing_but_int(av[3]) || !nothing_but_int(av[4]))
 	{
 		error(4);
 		return (0);

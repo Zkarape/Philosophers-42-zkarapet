@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 21:39:45 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/13 16:39:51 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/13 21:25:44 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,52 +38,52 @@ void	*actions(void *philo)
 	{
 		pthread_mutex_lock(d->left_fork);
 		pthread_mutex_lock(d->right_fork);
-		printf("%ld %d has taken a left fork\n", get_time(d->start_time), d->i + 1);
-		printf("%ld %d has taken a right fork\n", get_time(d->start_time), d->i + 1);
+		printf("%ld %d has taken a left fork\n",
+			get_time(d->start_time), d->i + 1);
+		printf("%ld %d has taken a right fork\n",
+			get_time(d->start_time), d->i + 1);
 		printf("%ld %d is eating\n", get_time(d->start_time), d->i + 1);
 		d->last_eating_time = get_time(d->start_time);
 		ft_usleep(d->time_to_eat);
 		d->eating_count++;
 		pthread_mutex_unlock(d->right_fork);
 		pthread_mutex_unlock(d->left_fork);
-		printf("%ld %d is sleeping\n", get_time_now(d->start_time), d->i + 1);
+		printf("%ld %d is sleeping\n", get_time(d->start_time), d->i + 1);
 		ft_usleep(d->time_to_sleep);
-		printf("%ld %d is thinking\n", get_time_now(d->start_time), d->i + 1);
+		printf("%ld %d is thinking\n", get_time(d->start_time), d->i + 1);
 	}
 }
 
-int	is_dead(t_data *data, int time_to_die, long present_time)
+int	is_dead(t_data *data, int time_to_die, long present_time, int print)
 {
+	int	i;
+
+	i = -1;
 	if (present_time - data->last_eating_time >= time_to_die)
 	{
-		printf("%ld %d is dead\n", present_time, data->i + 1);
-		pthread_mutex_unlock(&data->is_dead_mutex);
-		return (0);
+		if (!print)
+			printf("%ld %d is dead\n", present_time, data->i + 1);
+		pthread_mutex_unlock(&data[0].is_dead_mutex);
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
-void	*eat_this_much(void *data)
+int	eat_this_much(t_data *d)
 {
-	int		i;
-	t_data	*d;
+	int	i;
 
-	d = data;
-	while (1)
+	i = 0;
+	while (i < d[0].num_of_philos)
 	{
-		pthread_mutex_lock(&d[0].eating_count_mutex);
-		i = 0;
-		while (i < d[0].num_of_philos)
-			if (d[i].eating_count >= d[0].must_eat)
-				i++;
-		if (i == d[0].num_of_philos)
-		{
-			d[0].eaten = 8;
-			pthread_mutex_unlock(&d[0].is_dead_mutex);
-			return (NULL);
-		}
-		pthread_mutex_unlock(&d[0].eating_count_mutex);
+		if (is_dead(d, d[0].time_to_die, get_time(d[0].start_time), 1))
+			return (0);
+		if (d[i].eating_count >= d[0].must_eat)
+			i++;
 	}
+	if (i == d[0].num_of_philos)
+		return (0);
+	return (1);
 }
 
 void	creation(t_data *phs, pthread_mutex_t *forks)
@@ -106,11 +106,4 @@ void	creation(t_data *phs, pthread_mutex_t *forks)
 		}
 		pthread_detach(tid);
 	}
-//	flag = 1;
-	if (pthread_create(&tid, NULL, eat_this_much, phs))
-	{
-		error(1);
-		return ;
-	}
-	pthread_detach(tid);
 }

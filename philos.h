@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:57:27 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/13 16:19:56 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/13 21:14:34 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,17 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				eating_count;
 	int				must_eat;
+	int				dead;
 	int				eaten;
 }	t_data;
 
+int		eat_this_much(t_data *data);
 int		ft_atoi(char *s);
 int		ft_strlen(char *s);
 void	error(int flag);
 int		parsing(int ac, char **av);
 void	creation(t_data *data, pthread_mutex_t *forks);
-int		is_dead(t_data *data, int die, long present);
-long	get_time_now(long start);
+int		is_dead(t_data *data, int die, long present, int print);
+long	get_time(long start);
 
 #endif
