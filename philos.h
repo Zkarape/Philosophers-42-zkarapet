@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:57:27 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/13 12:28:43 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/13 16:19:56 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				eating_count;
 	int				must_eat;
+	int				eaten;
 }	t_data;
 
 int		ft_atoi(char *s);

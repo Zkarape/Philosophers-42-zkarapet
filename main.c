@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:43:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/13 12:38:15 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/13 16:38:46 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,28 @@ void	filling_data(t_data *data, char **av)
 	data->eating_count = 0;
 }
 
-int	mutex_init(pthread_mutex_t *forks, t_data *data, int n)
+pthread_mutex_t	*mutex_init(t_data *data, int n)
 {
-	int	i;
+	int				i;
+	pthread_mutex_t	*forks;
 
 	i = -1;
-	if (pthread_mutex_init(&data->eating_count_mutex, NULL) != 0
-		|| pthread_mutex_init(&data->write_mutex, NULL) != 0
-		|| pthread_mutex_init(&data->is_dead_mutex, NULL))
+	forks = malloc(sizeof(pthread_mutex_t) * n);
+	if (pthread_mutex_init(&data[0].eating_count_mutex, NULL) != 0
+		|| pthread_mutex_init(&data[0].is_dead_mutex, NULL))
 	{
 		error(5);
-		return (0);
+		return ((void *)0);
 	}
 	while (++i < n)
 	{
-		if (pthread_mutex_init(&(forks[i]), NULL) != 0)
+		if (pthread_mutex_init(&forks[i], NULL) != 0)
 		{
 			error(5);
-			return (0);
+			return ((void *)0);
 		}
 	}
-	return (1);
+	return (forks);
 }
 
 int	main(int argc, char **argv)
@@ -66,26 +67,24 @@ int	main(int argc, char **argv)
 	int				i;
 	int				n;
 	t_data			*data;
-	pthread_mutex_t	*forks;
 
 	i = -1;
 	n = ft_atoi(argv[1]);
 	data = malloc(sizeof(t_data) * n);
-	forks = malloc(sizeof(pthread_mutex_t) * n);
 	if (!parsing(argc, argv))
 		return (0);
-	mutex_init(forks, data, n);
 	while (++i < n)
 		filling_data(&data[i], argv);
-	creation(data, forks);
+	creation(data, mutex_init(data, n));
 	while (1)
 	{
 		i = -1;
 		while (++i < n)
 		{
 			if (!is_dead(&data[i], data[i].time_to_die,
-					get_time_now(data[i].start_time)))
+					get_time_now(data[i].start_time)) || data[0].eaten == 8)
 				return (0);
+			pthread_mutex_lock(&data[i].is_dead_mutex);
 		}
 	}
 }
