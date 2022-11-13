@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 21:39:45 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/08 21:26:35 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/09 20:52:58 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*philo_actions(void *philo)
 	while (*(d->start_from_me) != 1)
 		;
 	if (d->i % 2)
-		usleep (300);
+		usleep (300000);
 	while (1)
 	{
 		pthread_mutex_lock(d->fork1);
@@ -88,10 +88,10 @@ void	creation(t_data *philos, pthread_mutex_t *forks)
 		philos[philos->i].fork1 = &forks[philos->i];
 		if (philos->i + 1 == philos->num_of_philos)
 			philos[philos->i].fork2 = &forks[0];
-		else	
+		else
 			philos[philos->i].fork2 = &forks[philos->i + 1];
 		philos[philos->i].i = philos->i;
-		//philos[philos->i].start_from_me = &flag;
+		philos[philos->i].start_from_me = &flag;
 		if (pthread_create(&philos[philos->i].tid, NULL, philo_actions, &philos[philos->i]))
 		{
 			error("Error after creating thread\n");
