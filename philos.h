@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:57:27 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/13 21:14:34 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/17 21:56:14 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int		eat_this_much(t_data *data);
 int		ft_atoi(char *s);
 int		ft_strlen(char *s);
 void	error(int flag);
+void	destroying(t_data *data, pthread_mutex_t *forks);
+void	freeing(t_data *data, pthread_mutex_t *forks);
 int		parsing(int ac, char **av);
 void	creation(t_data *data, pthread_mutex_t *forks);
 int		is_dead(t_data *data, int die, long present, int print);

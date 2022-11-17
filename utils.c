@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:00:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/05 19:27:43 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/17 21:55:57 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,30 @@ int	ft_strlen(char *s)
 	while (s[++i])
 		;
 	return (i);
+}
+
+long	get_time(long start_time)
+{
+	struct timeval	current_time;
+
+	gettimeofday(&current_time, NULL);
+	return ((current_time.tv_sec * 1000
+			+ current_time.tv_usec / 1000) - start_time);
+}
+
+void	destroying(t_data *data, pthread_mutex_t *forks)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data[0].num_of_philos)
+		pthread_mutex_destroy(&forks[i]);
+	pthread_mutex_destroy(&data[0].is_dead_mutex);
+	pthread_mutex_destroy(&data[0].eating_count_mutex);
+}
+
+void	freeing(t_data *data, pthread_mutex_t *forks)
+{
+	free(forks);
+	free(data);
 }

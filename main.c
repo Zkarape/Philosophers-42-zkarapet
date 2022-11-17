@@ -6,20 +6,11 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:43:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/17 19:37:09 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/17 21:54:59 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philos.h"
-
-long	get_time(long start_time)
-{
-	struct timeval	current_time;
-
-	gettimeofday(&current_time, NULL);
-	return ((current_time.tv_sec * 1000
-			+ current_time.tv_usec / 1000) - start_time);
-}
 
 void	filling_data(t_data *data, char **av)
 {
@@ -79,25 +70,40 @@ int	main_thread_checks_dying(t_data *data)
 	return (1);
 }
 
+int	conds(t_data *data, pthread_mutex_t *forks, int argc)
+{	
+	if (!main_thread_checks_dying(data))
+	{
+		destroying(data, forks);
+		return (0);
+	}
+	if (argc == 6 && !eat_this_much(data))
+	{
+		destroying(data, forks);
+		return (0);
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	int				i;
 	int				n;
 	t_data			*data;
+	pthread_mutex_t	*forks;
 
 	i = -1;
 	n = ft_atoi(argv[1]);
 	data = malloc(sizeof(t_data) * n);
+	forks = mutex_init(data, n);
 	if (!parsing(argc, argv))
 		return (0);
 	while (++i < n)
 		filling_data(&data[i], argv);
-	creation(data, mutex_init(data, n));
+	creation(data, forks);
 	while (1)
 	{
-		if (!main_thread_checks_dying(data))
-			return (0);
-		if (argc == 6 && !eat_this_much(data))
+		if (!conds(data, forks, argc))
 			return (0);
 	}
 }
