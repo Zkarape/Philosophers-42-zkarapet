@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:43:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/13 21:26:53 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/17 19:37:09 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,23 @@ pthread_mutex_t	*mutex_init(t_data *data, int n)
 	return (forks);
 }
 
+int	main_thread_checks_dying(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data[0].num_of_philos)
+	{
+		if (is_dead(&data[i], data[0].time_to_die,
+				get_time(data[0].start_time), 0))
+		{
+			pthread_mutex_lock(&data[0].is_dead_mutex);
+			return (0);
+		}
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	int				i;
@@ -78,16 +95,8 @@ int	main(int argc, char **argv)
 	creation(data, mutex_init(data, n));
 	while (1)
 	{
-		i = -1;
-		while (++i < data[0].num_of_philos)
-		{
-			if (is_dead(&data[i], data[0].time_to_die,
-					get_time(data[0].start_time), 0))
-			{
-				pthread_mutex_lock(&data[0].is_dead_mutex);
-				return (0);
-			}
-		}
+		if (!main_thread_checks_dying(data))
+			return (0);
 		if (argc == 6 && !eat_this_much(data))
 			return (0);
 	}
