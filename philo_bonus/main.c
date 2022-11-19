@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:43:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/19 23:40:59 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/20 00:32:20 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ void	filling_data(t_data *data, char **av)
 		+ start.tv_usec / 1000;
 	data->last_eating_time = 0;
 	data->eating_count = 0;
+	data->must_eat_sem = sem_open("/must_eat_sem", O_CREAT, 0644, 1);
 }
 
 void	opening_sems(t_data *d, int n)
 {
-	d->must_eat_sem = sem_open("/must_eat_sem", O_CREAT, 0644, 1);
+//	d->must_eat_sem = sem_open("/must_eat_sem", O_CREAT, 0644, 1);
 	d->die_sem = sem_open("/die_sem", O_CREAT, 0644, 0);
-	d->sem = sem_open("/sem", O_CREAT, 0644, n);
+	d->fork_sem = sem_open("/fork_sem", O_CREAT, 0644, n);
 }
 
 int	main_thread_checks_dying(t_data *data)
@@ -54,7 +55,7 @@ int	main_thread_checks_dying(t_data *data)
 }
 
 int	conds(t_data *data,  int argc)
-{	
+{
 	if (!main_thread_checks_dying(data))
 	{
 		unlinking(data);
@@ -88,4 +89,6 @@ int	main(int argc, char **argv)
 		if (!conds(data, argc))
 			return (0);
 	}
+	kill(0, SIGINT);
+	return (0);
 }

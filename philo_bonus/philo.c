@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 21:39:45 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/19 23:35:48 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/20 00:33:10 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ void	*actions(void *philo)
 	d = philo;
 	while (1)
 	{
-		sem_wait(d->sem);
-		sem_wait(d->sem);
+		sem_wait(d->fork_sem);
+		sem_wait(d->fork_sem);
 		printf("%ld %d has taken a fork\n",
 			get_time(d->start_time), d->i + 1);
 		printf("%ld %d is eating\n", get_time(d->start_time), d->i + 1);
 		d->last_eating_time = get_time(d->start_time);
 		ft_usleep(d->time_to_eat);
 		d->eating_count++;
-		sem_post(d->sem);
-		sem_post(d->sem);
+		sem_post(d->fork_sem);
+		sem_post(d->fork_sem);
 		printf("%ld %d is sleeping\n", get_time(d->start_time), d->i + 1);
 		ft_usleep(d->time_to_sleep);
 		printf("%ld %d is thinking\n", get_time(d->start_time), d->i + 1);
@@ -86,17 +86,15 @@ int	eat_this_much(t_data *d)
 
 void	creation(t_data *phs)
 {
-//	pthread_t	tid;
 	sem_t		*sem;
 	pid_t		pid;
 	int			i;
 
 	i = -1;
-	while (++i < phs[0].num_of_philos)
+	pid = 1;
+	while (++i < phs[0].num_of_philos && pid != 0)
 	{
 		phs[i].i = i;
-	//	phs[i].left_fork = &(forks[i]);
-	//	phs[i].right_fork = &(forks[(i + 1) % phs[i].num_of_philos]);
 		pid = fork();
 		if (pid == -1)
 		{

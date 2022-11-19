@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:57:27 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/19 23:35:03 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/20 00:01:10 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_data
 	pthread_mutex_t	is_dead_mutex;
 	pthread_mutex_t	write_mutex;
 	pthread_mutex_t	eating_count_mutex;
-	sem_t			*sem;
+	sem_t			*fork_sem;
 	sem_t			*must_eat_sem;
 	sem_t			*die_sem;
 	long			start_time;
