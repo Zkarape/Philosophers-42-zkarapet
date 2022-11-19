@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 21:39:45 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/19 22:19:56 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/19 23:35:48 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ int	eat_this_much(t_data *d)
 	return (1);
 }
 
-void	creation(t_data *phs, pthread_mutex_t *forks)
+void	creation(t_data *phs)
 {
-	pthread_t	tid;
+//	pthread_t	tid;
 	sem_t		*sem;
 	pid_t		pid;
 	int			i;
@@ -104,6 +104,6 @@ void	creation(t_data *phs, pthread_mutex_t *forks)
 			return ;
 		}
 		else if (!pid)
-			philo_actions(&phs[i]);
+			actions(&phs[i]);
 	}
 }

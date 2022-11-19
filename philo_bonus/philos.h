@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:57:27 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/19 21:51:55 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/19 23:35:03 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ void	error(int flag);
 void	destroying(t_data *data, pthread_mutex_t *forks);
 void	freeing(t_data *data, pthread_mutex_t *forks);
 int		parsing(int ac, char **av);
-void	creation(t_data *data, pthread_mutex_t *forks);
+void	creation(t_data *data);
 int		is_dead(t_data *data, int die, long present, int print);
+void	unlinking(t_data *data);
 long	get_time(long start);
 
 #endif
