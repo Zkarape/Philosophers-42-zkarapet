@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:00:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/20 00:01:26 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/20 16:17:20 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,11 @@ long	get_time(long start_time)
 			+ current_time.tv_usec / 1000) - start_time);
 }
 
-//void	destroying(t_data *data, pthread_mutex_t *forks)
-//{
-//	int	i;
-//
-//	i = -1;
-//	while (++i < data[0].num_of_philos)
-//		pthread_mutex_destroy(&forks[i]);
-//	pthread_mutex_destroy(&data[0].is_dead_mutex);
-//	pthread_mutex_destroy(&data[0].eating_count_mutex);
-//}
-
 void	unlinking(t_data *data)
 {
 	sem_unlink("fork_sem");
+	sem_unlink("sem");
+	sem_unlink("eat_sem");
 	sem_unlink("die_sem");
 	sem_unlink("must_eat_sem");
 }

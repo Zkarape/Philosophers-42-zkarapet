@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:57:27 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/20 00:01:10 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/20 17:59:26 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <pthread.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <sys/signal.h>
 # include <semaphore.h>
 
 typedef struct s_data
@@ -28,9 +29,10 @@ typedef struct s_data
 	pthread_mutex_t	is_dead_mutex;
 	pthread_mutex_t	write_mutex;
 	pthread_mutex_t	eating_count_mutex;
-	sem_t			*fork_sem;
 	sem_t			*must_eat_sem;
-	sem_t			*die_sem;
+	sem_t			*eat_sem;
+	sem_t			*sem;
+	struct	s_main	*p;
 	long			start_time;
 	long			last_eating_time;
 	int				i;
@@ -45,14 +47,21 @@ typedef struct s_data
 	int				eaten;
 }	t_data;
 
-int		eat_this_much(t_data *data);
+typedef	struct	s_main
+{
+	t_data	*d;
+	sem_t	*die_sem;
+	sem_t	*fork_sem;
+}	t_main;
+
+void	*eat_this_much(void *data);
 int		ft_atoi(char *s);
 int		ft_strlen(char *s);
 void	error(int flag);
 void	destroying(t_data *data, pthread_mutex_t *forks);
 void	freeing(t_data *data, pthread_mutex_t *forks);
 int		parsing(int ac, char **av);
-void	creation(t_data *data);
+void	creation(t_main *data);
 int		is_dead(t_data *data, int die, long present, int print);
 void	unlinking(t_data *data);
 long	get_time(long start);

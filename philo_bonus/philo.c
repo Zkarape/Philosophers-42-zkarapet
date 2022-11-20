@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 21:39:45 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/20 00:33:10 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/20 18:09:26 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,79 +29,102 @@ void	ft_usleep(long time)
 	}
 }
 
+void	*is_dead_or_not_ttq(void *philo)
+{
+	int		i;
+	long	present_time;
+	t_data	*d;
+
+	i = -1;
+	d = philo;
+	while (1)
+	{
+	//	sem_wait(d->sem);
+		present_time = get_time(d->start_time);
+		if (present_time - d->last_eating_time > d->time_to_die)
+		{
+			printf("%ld %d is dead\n", present_time, d->i + 1);
+			sem_post(d->p->die_sem);
+			return (NULL);
+		}
+	//	sem_post(d->sem);
+	}
+}
+
+void	death_thread_creation(void *philo)
+{
+	pthread_t	tid;
+
+	if (pthread_create(&tid, NULL, is_dead_or_not_ttq, philo))
+		error(0);
+	pthread_detach(tid);
+}
+
 void	*actions(void *philo)
 {
 	t_data	*d;
 
 	d = philo;
+	death_thread_creation(philo);
 	while (1)
 	{
-		sem_wait(d->fork_sem);
-		sem_wait(d->fork_sem);
-		printf("%ld %d has taken a fork\n",
+		sem_wait(d->p->fork_sem);
+		sem_wait(d->p->fork_sem);
+		printf("%ld %d has taken forks\n",
 			get_time(d->start_time), d->i + 1);
 		printf("%ld %d is eating\n", get_time(d->start_time), d->i + 1);
 		d->last_eating_time = get_time(d->start_time);
 		ft_usleep(d->time_to_eat);
 		d->eating_count++;
-		sem_post(d->fork_sem);
-		sem_post(d->fork_sem);
+		sem_post(d->p->fork_sem);
+		sem_post(d->p->fork_sem);
+		if (d->eating_count == d->must_eat)
+			sem_post(d->must_eat_sem);
 		printf("%ld %d is sleeping\n", get_time(d->start_time), d->i + 1);
 		ft_usleep(d->time_to_sleep);
 		printf("%ld %d is thinking\n", get_time(d->start_time), d->i + 1);
 	}
 }
 
-int	is_dead(t_data *data, int time_to_die, long present_time, int print)
+void	*eat_this_much(void *data)
 {
-	int	i;
+	int		i;
+	t_data	*d;
 
-	i = -1;
-	if (present_time - data->last_eating_time >= time_to_die)
+	d = data;
+	while (1)
 	{
-		if (!print)
-			printf("%ld %d is dead\n", present_time, data->i + 1);
-		sem_post(data->die_sem);
-		return (1);
-	}
-	return (0);
-}
-
-int	eat_this_much(t_data *d)
-{
-	int	i;
-
-	i = 0;
-	while (i < d[0].num_of_philos)
-	{
-		if (is_dead(d, d[0].time_to_die, get_time(d[0].start_time), 1))
-			return (0);
-		if (d[i].eating_count >= d[0].must_eat)
+	//	sem_wait(d->eat_sem);
+		i = 0;
+		while (i < d[0].num_of_philos)
+		{
+			sem_wait(d[i].must_eat_sem);
 			i++;
+		}//e.g. he first one have eaten d->must_eat times, so sem_posted must_eat_sem, then program continues and i++ until the end of the cycle
+		printf("%ld all ones have eaten >= %d times\n", get_time(d[0].start_time), d[0].must_eat);
+		sem_post(d->p->die_sem);
+	//	sem_post(d->eat_sem);
 	}
-	if (i == d[0].num_of_philos)
-		return (0);
-	return (1);
 }
 
-void	creation(t_data *phs)
+void	creation(t_main *p)
 {
-	sem_t		*sem;
+	pthread_t	tid;
 	pid_t		pid;
 	int			i;
 
 	i = -1;
 	pid = 1;
-	while (++i < phs[0].num_of_philos && pid != 0)
+	while (++i < (p->d)[0].num_of_philos && pid != 0)
 	{
-		phs[i].i = i;
+		(p->d)[i].i = i;
 		pid = fork();
 		if (pid == -1)
-		{
 			error(1);
-			return ;
-		}
 		else if (!pid)
-			actions(&phs[i]);
+			actions(&(p->d)[i]);
 	}
+	if (pthread_create(&tid, NULL, eat_this_much, p->d))
+		error(0);
+	pthread_detach(tid);
 }
