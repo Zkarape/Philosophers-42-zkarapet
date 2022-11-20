@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:57:27 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/20 17:59:26 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/20 18:24:19 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 # define PHILOS_H
 
 # include <stdio.h>
-# include <unistd.h>
-# include <pthread.h>
 # include <stdlib.h>
-# include <sys/time.h>
-# include <sys/signal.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <pthread.h>
 # include <semaphore.h>
+# include <sys/time.h>
+# include <sys/errno.h>
+# include <signal.h>
 
 typedef struct s_data
 {
