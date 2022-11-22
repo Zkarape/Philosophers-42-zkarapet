@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:00:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/20 16:17:20 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/22 18:35:55 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,23 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
+void	ft_usleep(long time)
+{
+	struct timeval	start;
+	struct timeval	now;
+	long			present;
+
+	gettimeofday(&now, NULL);
+	present = 0;
+	while (present < time)
+	{
+		usleep(200);
+		gettimeofday(&start, NULL);
+		present = (start.tv_sec * 1000 + start.tv_usec / 1000)
+			- (now.tv_sec * 1000 + now.tv_usec / 1000);
+	}
+}
+
 long	get_time(long start_time)
 {
 	struct timeval	current_time;
@@ -48,15 +65,6 @@ long	get_time(long start_time)
 	gettimeofday(&current_time, NULL);
 	return ((current_time.tv_sec * 1000
 			+ current_time.tv_usec / 1000) - start_time);
-}
-
-void	unlinking(t_data *data)
-{
-	sem_unlink("fork_sem");
-	sem_unlink("sem");
-	sem_unlink("eat_sem");
-	sem_unlink("die_sem");
-	sem_unlink("must_eat_sem");
 }
 
 void	freeing(t_data *data, pthread_mutex_t *forks)
