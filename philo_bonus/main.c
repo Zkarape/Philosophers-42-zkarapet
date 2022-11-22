@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:43:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/22 21:48:51 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:57:39 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	filling_data(t_data *data, t_main *p, char **av)
 	data->eat_sem = sem_open("/eat_sem", O_CREAT, 0644, 1);
 	data->sem = sem_open("/sem", O_CREAT, 0645, 1);
 	if (data->eat_sem == SEM_FAILED || data->must_eat_sem == SEM_FAILED
-			|| data->sem == SEM_FAILED)
+		|| data->sem == SEM_FAILED)
 		error(3);
 }
 
@@ -41,7 +41,7 @@ void	opening_sems(t_main *p, int n)
 	p->die_sem = sem_open("/die_sem", O_CREAT, 0644, 0);
 	p->fork_sem = sem_open("/fork_sem", O_CREAT, 0644, n);
 	if (p->die_sem == SEM_FAILED
-			|| p->fork_sem == SEM_FAILED)
+		|| p->fork_sem == SEM_FAILED)
 		error(3);
 }
 
