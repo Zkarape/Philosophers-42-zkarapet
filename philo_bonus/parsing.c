@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:56:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/22 21:30:01 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:43:07 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,15 @@ int	nothing_but_int(char *str)
 	return (0);
 }
 
-int	parsing(int ac, char **av)
+void	parsing(int ac, char **av)
 {
 	if (ac != 5 && ac != 6)
-	{
 		error(2);
-		return (0);
-	}
-	if (ac == 6)
-	{
-		if (!nothing_but_int(av[5]))
-		{
-			error(2);
-			return (0);
-		}
-	}
+	if (ac == 6 && !nothing_but_int(av[5]))
+		error(2);
 	if (!nothing_but_int(av[1]) || !nothing_but_int(av[2])
 		|| !nothing_but_int(av[3]) || !nothing_but_int(av[4]))
 	{
 		error(2);
-		return (0);
 	}
-	return (1);
 }

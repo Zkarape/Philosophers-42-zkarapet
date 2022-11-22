@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 21:39:45 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/22 21:14:51 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:45:37 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void	*is_dead_or_not_ttq(void *philo)
 		{
 			printf("%ld %d is dead\n", get_time(d->start_time), d->i + 1);
 			sem_post(d->p->die_sem);
-			exit(0);
-		//	return (NULL);
+			return (NULL);
 		}
 		sem_post(d->sem);
 	}
@@ -77,7 +76,6 @@ void	*eat_this_much(void *data)
 	d = data;
 	while (1)
 	{
-//		sem_wait(d->eat_sem);
 		i = 0;
 		while (i < d[0].num_of_philos)
 		{
@@ -87,7 +85,6 @@ void	*eat_this_much(void *data)
 		printf("%ld all ones have eaten >= %d times\n",
 			get_time(d[0].start_time), d[0].must_eat);
 		sem_post(d->p->die_sem);
-//		sem_post(d->eat_sem);
 	}
 }
 

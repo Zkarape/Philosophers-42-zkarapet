@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:00:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/22 18:35:55 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:45:51 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,4 @@ long	get_time(long start_time)
 	gettimeofday(&current_time, NULL);
 	return ((current_time.tv_sec * 1000
 			+ current_time.tv_usec / 1000) - start_time);
-}
-
-void	freeing(t_data *data, pthread_mutex_t *forks)
-{
-	free(forks);
-	free(data);
 }
