@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 21:39:45 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/22 18:33:20 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/22 19:02:27 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	*is_dead_or_not_ttq(void *philo)
 		{
 			printf("%ld %d is dead\n", get_time(d->start_time), d->i + 1);
 			sem_post(d->p->die_sem);
-			return (NULL);
+			exit(0);
+		//	return (NULL);
 		}
 		sem_post(d->sem);
 	}

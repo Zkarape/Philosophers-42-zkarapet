@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:43:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/17 21:54:59 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:28:46 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ int	main(int argc, char **argv)
 	pthread_mutex_t	*forks;
 
 	i = -1;
+	if (!parsing(argc, argv))
+		return (0);
 	n = ft_atoi(argv[1]);
 	data = malloc(sizeof(t_data) * n);
 	forks = mutex_init(data, n);
-	if (!parsing(argc, argv))
-		return (0);
 	while (++i < n)
 		filling_data(&data[i], argv);
 	creation(data, forks);
