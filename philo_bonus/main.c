@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:43:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2022/11/22 18:45:16 by zkarapet         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:31:20 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	filling_data(t_data *data, t_main *p, char **av)
 	data->last_eating_time = 0;
 	data->eating_count = 0;
 	data->must_eat_sem = sem_open("/must_eat_sem", O_CREAT, 0644, 0);
+	data->eat_sem = sem_open("/eat_sem", O_CREAT, 0644, 1);
 	data->sem = sem_open("/sem", O_CREAT, 0645, 1);
 }
 
@@ -54,12 +55,12 @@ int	main(int argc, char **argv)
 	t_main	p;
 
 	i = -1;
+	if (!parsing(argc, argv))
+		return (0);
 	n = ft_atoi(argv[1]);
 	p.d = malloc(sizeof(t_data) * n);
 	unlinking();
 	opening_sems(&p, n);
-	if (!parsing(argc, argv))
-		return (0);
 	while (++i < n)
 		filling_data(&(p.d[i]), &p, argv);
 	creation(&p);
