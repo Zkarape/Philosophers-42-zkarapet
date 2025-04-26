@@ -1,10 +1,11 @@
-📖 Project Overview
+# Philosophers
+## 📖 Project Overview
 ft_philosophers is a 42 School project that explores the classic Dining Philosophers Problem, a famous concurrency problem invented by Edsger Dijkstra.
 The goal of the project is to understand and handle multithreading, process synchronization, mutexes, and race conditions through a real-world simulation of philosophers sharing forks around a table.
 
 The program must precisely simulate the philosophers' behavior while carefully avoiding deadlocks and data races.
 
-🛠 Project Requirements
+## 🛠 Project Requirements
 Only C programming language is allowed.
 
 Use of pthread library (for mandatory part).
@@ -15,7 +16,7 @@ No memory leaks, deadlocks, starvation, or data races are allowed.
 
 The code must follow 42 Norm coding style.
 
-🎯 How It Works
+## 🎯 How It Works
 Each philosopher:
 
 Thinks 🧠
@@ -38,7 +39,7 @@ Each philosopher has eaten at least number_of_times_each_philosopher_must_eat ti
 
 Forks are represented by mutexes or semaphores, ensuring only one philosopher can hold a fork at a time.
 
-🧩 Usage
+## 🧩 Usage
 1. Compilation
 bash
 make
@@ -68,7 +69,7 @@ They die if they don't eat within 800ms.
 
 They take 200ms to eat and 200ms to sleep.
 
-🧠 Key Concepts
+## 🧠 Key Concepts
 Mutexes: Used in the mandatory part to control fork access between threads.
 
 Semaphores: Used in the bonus part for interprocess synchronization.
@@ -79,13 +80,11 @@ Precise timing: Careful use of usleep() and manual timestamp checks to minimize 
 
 Death monitoring: A separate monitor ensures no philosopher is left unattended.
 
-🏛 Project Structure
-bash
 
-✨ Bonus Part
+## ✨ Bonus Part
 The bonus version re-implements the simulation using processes instead of threads and semaphores for synchronization.
 
-🚀 Key Differences:
+## 🚀 Key Differences:
 Each philosopher is now a separate process, created using fork().
 
 Semaphores (sem_open, sem_wait, sem_post, sem_close, sem_unlink) are used to manage forks and writing access.
@@ -94,12 +93,12 @@ Accurate process termination: when a philosopher dies, all processes must be pro
 
 Parent process monitors children and ensures clean shutdown.
 
-🌟 Extra Features:
+## 🌟 Extra Features:
 Faster death detection due to independent processes.
 
 No risk of thread-related race conditions.
 
-⚠️ Things to Watch Out For
+## ⚠️ Things to Watch Out For
 Deadlocks: Prevent philosophers from waiting forever for forks.
 
 Starvation: Ensure all philosophers can eventually eat.
@@ -110,14 +109,14 @@ Resource cleanup: Destroy all mutexes or semaphores at the end.
 
 Memory leaks: None allowed, especially in the bonus version.
 
-📚 References
+## 📚 References
 Dining Philosophers Problem - Wikipedia
 
 pthread Library Documentation
 
 sem_open, sem_wait, sem_post Manual Pages
 
-🧙 Author
+## 🧙 Author
 Project by  Zhenya
 42 School — ft_philosophers
 
