@@ -82,31 +82,6 @@ Death monitoring: A separate monitor ensures no philosopher is left unattended.
 🏛 Project Structure
 bash
 
-philo/
-├── Makefile
-├── philo.h
-├── main.c
-├── init.c
-├── utils.c
-├── philosopher.c
-├── actions.c
-├── monitor.c
-philo_bonus/
-├── philo_bonus.h
-├── main_bonus.c
-├── init_bonus.c
-├── utils_bonus.c
-├── philosopher_bonus.c
-├── actions_bonus.c
-├── monitor_bonus.c
-
-File	Purpose
-main.c / main_bonus.c	Program entry point
-init.c / init_bonus.c	Initialization of structures and synchronization tools
-utils.c / utils_bonus.c	Utility functions
-philosopher.c / philosopher_bonus.c	Philosopher's routine
-actions.c / actions_bonus.c	Handling eating, sleeping, thinking actions
-monitor.c / monitor_bonus.c	Supervision of death and program termination
 ✨ Bonus Part
 The bonus version re-implements the simulation using processes instead of threads and semaphores for synchronization.
 
